@@ -1,6 +1,7 @@
 # static-quil
 
-A Leiningen template for generating static quil projects.
+A Leiningen template for generating static quil projects. The fresh project is
+initialised with an empty git repo for version control.
 
 ## Usage
 
