@@ -15,5 +15,4 @@
              ["src/{{sanitized}}/core.clj" (render "core.clj" data)]
              ["src/{{sanitized}}/runcore.clj" (render "runcore.clj" data)]
              ["project.clj" (render "project.clj" data)]
-             [".gitignore" (render ".gitignore" data)]))
     (sh "git" "init"))
