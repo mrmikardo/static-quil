@@ -1,7 +1,7 @@
 (ns leiningen.new.static-quil
   (:require [leiningen.new.templates :refer [renderer name-to-path ->files]]
             [leiningen.core.main :as main]
-            [clojure.javal.shell :refer [sh]]))
+            [clojure.java.shell :refer [sh]]))
 
 (def render (renderer "static-quil"))
 
