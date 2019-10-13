@@ -5,8 +5,8 @@
 
 ; utility functions for scaling height and width, and for saving images
 ; based on: https://tylerxhobbs.com/essays/2015/using-quil-for-artwork
-(defn h   ([] (h 1.0))   ([value] (* (height) value)))
-(defn w   ([] (w 1.0))   ([value] (* (width) value)))
+(defn h   ([] (h 1.0))   ([value] (* (q/height) value)))
+(defn w   ([] (w 1.0))   ([value] (* (q/width) value)))
 
 ; relies on imagemagick command line utility
 (defn save-img [img-num]
@@ -14,7 +14,7 @@
         thumb (str "sketch-" img-num "-1000.tif")]
     (q/save filename)
     (sh "convert" "-LZW" filename filename)
-    (sh "convert" "-scale" "1000x1000" filename thumbnail)
+    (sh "convert" "-scale" "1000x1000" filename thumb)
     (println "Saved image #" img-num)))
 
 ; end utility functions
@@ -26,7 +26,7 @@
 (defn draw [state]
   (doseq [img-num (range 0 100)]
     "FIXME: Draw things here!"
-    (save-img img-num))
+    (save-img img-num)))
 
 (q/defsketch {{name}}
   :title "FIXME"
