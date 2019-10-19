@@ -10,8 +10,8 @@
 
 ; relies on imagemagick command line utility
 (defn save-img [img-num]
-  (let [filename (str "sketch-" img-num ".tif")
-        thumb (str "sketch-" img-num "-1000.tif")]
+  (let [filename (str "output/sketch-" img-num ".tif")
+        thumb (str "output/sketch-" img-num "-1000.tif")]
     (q/save filename)
     (sh "convert" "-LZW" filename filename)
     (sh "convert" "-scale" "1000x1000" filename thumb)
