@@ -14,32 +14,29 @@
 (defn parse-int [s]
   (Integer. (re-find #"\d+" s)))
 
-(def img-nums (atom []))
+(def imgnum (atom nil))
 
-(defn load-imgnum-from-config []
-  (let [img-num (sh "cat" "img-num")]
-    (if (not (= (:exit img-num) 0)) 0 (parse-int (:out img-num)))))
+(defn get-or-set-imgnum []
+  (let [imgnum (slurp "imgnum")]
+    (if (= imgnum "") 0 (parse-int imgnum))))
 
-(defn load-imgnum-from-config-or-state []
-  (if (empty? @img-nums)
-    (do
-      (swap! img-nums conj (load-imgnum-from-config))
-      (last @img-nums))
-    (last @img-nums)))
+(defn load-imgnum-to-state []
+  (reset! imgnum (get-or-set-imgnum)))
 
-(defn save-latest-imgnum-to-config []
-  (sh "bash" "-c" (str "echo " (last @img-nums) " > img-num")))
+(defn save-latest-imgnum []
+  (spit "imgnum" @imgnum))
 
 ; relies on imagemagick command line utility ("convert")
 (defn save-img []
-  (let [img-num  (load-imgnum-from-config-or-state)
+  (let [img-num   (load-imgnum-to-state)
         filename (str "output/sketch-" img-num ".tif")
         thumb    (str "output/sketch-" img-num "-1000.tif")]
     (q/save filename)
     (sh "convert" "-LZW" filename filename)
     (sh "convert" "-scale" "1000x1000" filename thumb)
-    (swap! img-nums conj (inc img-num))
-    (println "Saved image #" img-num)))
+    (println "Saved image #" img-num)
+    (swap! imgnum inc)
+    (save-latest-imgnum)))
 
 ; end utility functions
 
