@@ -23,9 +23,6 @@
 (defn load-imgnum-to-state []
   (reset! imgnum (get-or-set-imgnum)))
 
-(defn save-latest-imgnum []
-  (spit "imgnum" @imgnum))
-
 ; relies on imagemagick command line utility ("convert")
 (defn save-img []
   (let [img-num   (load-imgnum-to-state)
@@ -36,7 +33,7 @@
     (sh "convert" "-scale" "1000x1000" filename thumb)
     (println "Saved image #" img-num)
     (swap! imgnum inc)
-    (save-latest-imgnum)))
+    (spit "imgnum" @imgnum)))
 
 ; end utility functions
 
