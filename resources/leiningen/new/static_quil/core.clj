@@ -44,7 +44,7 @@
 (defn draw [state]
   (doseq [img-num (range 0 100)]
     "FIXME: Draw things here!"
-    (save-img img-num)))
+    (save-img)))
 
 (q/defsketch {{name}}
   :title "FIXME"
